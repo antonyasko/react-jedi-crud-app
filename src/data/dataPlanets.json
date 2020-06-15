@@ -1,0 +1,29 @@
+[
+  {
+    "name": "aaa aaa",
+    "height": 178,
+    "mass": 79,
+    "gender": "male",
+    "birth_year": "1992Y",
+    "beloved": false,
+    "id": 11
+  },
+  {
+    "name": "bbb bbb",
+    "height": 177,
+    "mass": 70,
+    "gender": "male",
+    "birth_year": "1990Y",
+    "beloved": false,
+    "id": 22
+  },
+  {
+    "name": "ccc ccc",
+    "height": 166,
+    "mass": 65,
+    "gender": "male",
+    "birth_year": "1988Y",
+    "beloved": false,
+    "id": 33
+  }
+]
