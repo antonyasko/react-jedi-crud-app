@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import Input from "../Input/Input";
 import SaveButton from "../SaveButton/SaveButton";
-import 'bootstrap/dist/css/bootstrap.css';
 
-const Form = ({path, columns, initialData, onAddData}) => {
+const Form = ({path, prePath, columns, initialData, onAddData}) => {
   const [personData, setPersonData] = useState(initialData);
 
   const handleClick = (event) => {
-    console.log(event)
-    event.preventDefault();
+    // event.preventDefault();
     onAddData(personData);
   }
 
@@ -20,24 +18,27 @@ const Form = ({path, columns, initialData, onAddData}) => {
   }
 
   return (
-    <form className="input-form">
-      {columns.map( columnName => (
-        <Input
-          key={columnName}
-          name={columnName}
-          label={columnName}
-          value={personData[columnName]}
-          type="input"
-          onChange={handleChange}
+    <div className="wrapper-form" style={{width: "740px", margin: "0 auto"}}>
+      <form className="input-form">
+        {columns.map( columnName => (
+          <Input
+            key={columnName}
+            name={columnName}
+            label={columnName}
+            value={personData[columnName]}
+            type="input"
+            onChange={handleChange}
+          />
+        ))}
+        <SaveButton
+          path={path}
+          prePath={prePath}
+          onClick={handleClick}
+          label="Save"
+          classes="alert alert-danger"
         />
-      ))}
-      <SaveButton
-        path={path}
-        label="Save"
-        classes="alert alert-danger"
-        onClick={handleClick}
-      />
-    </form>
+      </form>
+    </div>
   );
 };
 

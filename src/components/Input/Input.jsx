@@ -1,5 +1,4 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
 
 const Input = ({name, label, error, ...rest}) => {
     return (

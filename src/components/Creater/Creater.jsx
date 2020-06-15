@@ -3,10 +3,14 @@ import { NavLink } from "react-router-dom";
 
 import './Creater.scss';
 
-function Creater({createrDescriptor}) {
+function Creater({createrDescriptor, createrOnClick}) {
   return (
     <NavLink exact to={"/form"}>
-      <button className="button-creater">New {createrDescriptor}</button>
+      <button 
+        onClick={createrOnClick} 
+        className="button-creater">
+          New {createrDescriptor}
+      </button>
     </NavLink>
 
   )
