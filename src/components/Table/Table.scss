@@ -1,0 +1,53 @@
+$textColor: #ffffff;
+$oddRowColor: #696666;
+$evenRowColor: #505050;
+$border: 1px solid #000000;
+
+.delete-button {
+  background-color: #ff5656;
+  outline: none;
+  border: none;
+  padding: 5px;
+  color: $textColor;
+  cursor: pointer;
+}
+
+.table {
+  border-collapse: collapse;
+  margin: 10px auto 0 auto;
+  color: $textColor;
+  .even-row {
+    background-color: $evenRowColor;
+  }
+  .odd-row {
+    background-color: $oddRowColor;
+  }
+  .table-head {
+    background-color: $evenRowColor;
+    tr {
+      th {
+        width: min-content;
+        padding: 10px 15px;
+        border: $border;
+      }
+      td {
+        text-align: left;
+        border: $border;
+      }
+    }
+  }
+  .table-body {
+    tr {
+      th {
+        text-align: left;
+        border: $border;
+        padding-left: 5px;
+
+      }
+      td {
+        border: $border;
+        padding: 5px;
+      }
+    }
+  }
+}

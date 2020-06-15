@@ -1,0 +1,12 @@
+$buttonColor: #ffa500;
+
+.button-creater {
+  cursor: pointer;
+  background-color: $buttonColor;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+  font-weight: bold;
+}
