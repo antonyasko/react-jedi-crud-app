@@ -5,7 +5,7 @@ import './Creater.scss';
 
 function Creater({createrDescriptor}) {
   return (
-    <NavLink exact to={"/form"}>
+    <NavLink to={"/form"}>
       <button 
         className="button-creater">
           New {createrDescriptor}

@@ -1,4 +1,6 @@
 import React from 'react';
+import { NavLink } from "react-router-dom";
+
 import './Table.scss'
 
 function Table({data, path, columns, tableDescriptor, onDeleteData}) {
@@ -13,7 +15,7 @@ function Table({data, path, columns, tableDescriptor, onDeleteData}) {
       <tr>
         <th scope="col">{tableDescriptor}</th>
         {columns.map(columnTitle => (
-            <th key={columnTitle} scope="col">{columnTitle}</th>
+          <th key={columnTitle} scope="col">{columnTitle}</th>
         ))}
         <td></td>
       </tr>
@@ -23,7 +25,13 @@ function Table({data, path, columns, tableDescriptor, onDeleteData}) {
         <tr id={`row-${item.id}`} key={item.id} className={index % 2 ? "even-row" : "odd-row"}>
           <th scope="row">{++index}</th>
           {columns.map(columnTitle => (
-            <td key={item[columnTitle]+columnTitle}>{item[columnTitle]}</td>
+            (columnTitle === 'name') 
+            ? <td key={item[columnTitle]+columnTitle}>
+                <NavLink to={"/form"}>
+                  {item[columnTitle]}
+                </NavLink>
+              </td>
+            : <td key={item[columnTitle]+columnTitle}>{item[columnTitle]}</td>
           ))}
           <td>
             <button className="delete-button" onClick={deleteRow}>Delete</button>
