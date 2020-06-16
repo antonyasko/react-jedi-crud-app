@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import Input from "../Input/Input";
 import SaveButton from "../SaveButton/SaveButton";
 
-const Form = ({path, prePath, columns, initialData, onAddData}) => {
+const Form = ({path, columns, initialData, onAddData}) => {
   const [personData, setPersonData] = useState(initialData);
 
   const handleClick = (event) => {
     // event.preventDefault();
-    onAddData(personData);
+    onAddData(path, personData);
   }
 
   const handleChange = (event) => {
@@ -32,7 +32,6 @@ const Form = ({path, prePath, columns, initialData, onAddData}) => {
         ))}
         <SaveButton
           path={path}
-          prePath={prePath}
           onClick={handleClick}
           label="Save"
           classes="alert alert-danger"
