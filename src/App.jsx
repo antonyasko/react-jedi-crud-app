@@ -23,7 +23,6 @@ let path = 'People';
 let data = dataPeople;
 
 let columns = Object.keys(data[0]);
-console.log(columns);
 
 function App() {
   const [listPeople, setPeople] = useState(dataPeople);
@@ -57,7 +56,26 @@ function App() {
     }
   }
 
-  const getInitialPeopleData = () => {
+  const handleDeleteItem = (path, deleteNumber) => {
+    if (path === 'Planets') {
+      const listPlanetsCopy = [...listPlanets];
+      listPlanetsCopy.splice(deleteNumber, 1);
+      data = [...listPlanetsCopy];
+      setPlanets(data);
+    } else if (path === 'Starships') {
+      const listStarshipsCopy = [...listStarships];
+      listStarshipsCopy.splice(deleteNumber, 1);
+      data = [...listStarshipsCopy];
+      setStarships(data);
+    } else if (path === 'People') {
+      const listPeopleCopy = [...listPeople];
+      listPeopleCopy.splice(deleteNumber, 1);
+      data = [...listPeopleCopy];
+      setPeople(data);
+    }
+  }
+
+  const getInitialData = () => {
     return columns.reduce((cols, columnName) => {
       cols[columnName] = "";
       return cols;
@@ -77,7 +95,7 @@ function App() {
               In this place will be Main Page. But I'm not sure.
             </main>
           </Route>
-          <Route exact path={`/${path}`}>
+          <Route exact path={(`/${path}`)}>
             <div className="table-wrapper">
             <Title titleDescriptor={path}/>
             <Creater 
@@ -85,15 +103,18 @@ function App() {
             /> 
             <Table
               data={data}
+              path={path}
               columns={columns}
               tableDescriptor={path}
+              onDeleteData={handleDeleteItem}
+              initialData={getInitialData()}
             />
           </div>
           </Route>
           <Route exact path="/form">
             <Form
               path={path}
-              initialData={getInitialPeopleData()}
+              initialData={getInitialData()}
               columns={columns}
               onAddData={handleAppItem}
             />

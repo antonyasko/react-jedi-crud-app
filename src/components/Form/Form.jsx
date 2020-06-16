@@ -23,7 +23,6 @@ const Form = ({path, columns, initialData, onAddData}) => {
   const handleChange = (event) => {
     const { currentTarget : input } = event;
     const data = {...personData};
-    console.log(input.hasAttribute('value'));
     if (input.value !== '') {
       data[input.name] = input.value;
       setPersonData(data);

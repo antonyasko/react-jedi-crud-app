@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
 
-const SaveButton = ({path, prePath, onClick, label, classes, disabled}) => {
+const SaveButton = ({path, onClick, label, classes, disabled}) => {
   return (
     <NavLink exact to={`/${path}`}>
       <button
