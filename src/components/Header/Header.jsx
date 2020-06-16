@@ -10,7 +10,7 @@ function Header({headerList, changeData}) {
             <nav className="navbar">
               <ul>
                 {headerList.map((item) => (
-                  <NavLink key={item} exact to={`/${item}`}>
+                  <NavLink key={item} to={`/${item.toLowerCase()}`}>
                     <li>
                       <button onClick={changeData}>{item}</button>
                     </li>

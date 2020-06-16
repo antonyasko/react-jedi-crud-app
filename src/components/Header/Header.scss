@@ -1,5 +1,6 @@
 $darkGray: #454d55;
 $textColor: #ffffff;
+$hover: #ffa500;
 
 .header {
   background-color: $darkGray;
@@ -19,7 +20,6 @@ $textColor: #ffffff;
       display: flex;
       li {
         list-style-type: none;
-        border: 1px solid black;
         margin: 0;
         button {
           cursor: pointer;
@@ -28,6 +28,9 @@ $textColor: #ffffff;
           padding: 5px;
           background: none;
           color: $textColor;
+        }
+        button:hover {
+          color: $hover;
         }
       }
     }

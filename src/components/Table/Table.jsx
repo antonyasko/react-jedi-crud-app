@@ -1,18 +1,10 @@
-// import React, { useState } from 'react';
 import React from 'react';
 import './Table.scss'
 
-function Table({data, path, columns, tableDescriptor, onDeleteData, initialData}) {
-  // const [personData, setPersonData] = useState(initialData);
-  
+function Table({data, path, columns, tableDescriptor, onDeleteData}) {
   const deleteRow = (event) => {
     const deleteRow = event.currentTarget.closest('tr').firstChild.textContent - 1;
-    console.log(deleteRow);
-    // event.currentTarget.closest('tr').remove();
-    // event.currentTarget.closest('tr').style.display = 'none';
-    onDeleteData(path, deleteRow);
-    // setPersonData(data);
-    // console.log(data);
+    onDeleteData(path.toLowerCase(), deleteRow);
   }
 
   return (

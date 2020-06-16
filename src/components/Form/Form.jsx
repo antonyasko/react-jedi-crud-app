@@ -8,14 +8,15 @@ const Form = ({path, columns, initialData, onAddData}) => {
   const [personData, setPersonData] = useState(initialData);
 
   const handleClick = (event) => {
-    event.preventDefault();
     const inputs = Array.from(document.getElementsByClassName('form-control'));
     inputs.forEach((input) => {
       if (input.value === '') {
+        event.preventDefault();
         input.classList.add('input-invalid');
       } 
       if (inputs.every(input => input.value !== '')) {
-        onAddData(path, personData);
+        onAddData(path.toLowerCase(), personData);
+        input.value = '';
       }
     })
   }

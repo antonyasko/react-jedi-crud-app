@@ -1,13 +1,15 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
 
+import './SaveButton.scss';
+
 const SaveButton = ({path, onClick, label, classes, disabled}) => {
   return (
-    <NavLink exact to={`/${path}`}>
+    <NavLink to={`/${path.toLowerCase()}`}>
       <button
         disabled={disabled}
         onClick={onClick}
-        className={classes}
+        className={`save-button ${classes}`}
       >
         {label}
       </button>
