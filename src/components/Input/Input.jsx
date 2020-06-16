@@ -1,16 +1,17 @@
 import React from 'react';
+import './Input.scss';
 
-const Input = ({name, label, error, ...rest}) => {
+const Input = ({id, name, label, error, ...rest}) => {
     return (
       <div className="form-group">
         <label htmlFor={name}>{label}</label>
         <input
-          id={name}
+          id={id}
           name={name}
           {...rest}
           className="form-control"
+          required
         />
-        {error && <div className="alert alert-danger">{error}</div>}
     </div>
   );
 };

@@ -23,6 +23,7 @@ let path = 'People';
 let data = dataPeople;
 
 let columns = Object.keys(data[0]);
+console.log(columns);
 
 function App() {
   const [listPeople, setPeople] = useState(dataPeople);
@@ -71,6 +72,11 @@ function App() {
           changeData={changeData}
         />
         <Switch>
+          <Route exact path="/">
+            <main className="main">
+              In this place will be Main Page. But I'm not sure.
+            </main>
+          </Route>
           <Route exact path={`/${path}`}>
             <div className="table-wrapper">
             <Title titleDescriptor={path}/>
@@ -84,13 +90,18 @@ function App() {
             />
           </div>
           </Route>
-          <Route exact path="/Form">
+          <Route exact path="/form">
             <Form
               path={path}
               initialData={getInitialPeopleData()}
               columns={columns}
               onAddData={handleAppItem}
             />
+          </Route>
+          <Route>
+            <div className="error">
+              404 : Page not found
+            </div>
           </Route>
         </Switch>
       </Router>
