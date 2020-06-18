@@ -1,19 +1,20 @@
+/* eslint-disable no-param-reassign */
 import React, { useState } from 'react';
-import Table from "./components/Table/Table";
-import Form from './components/Form/Form';
-import Header from './components/Header/Header';
-import Title from './components/Title/Title';
-import Creater from './components/Creater/Creater';
 import {
   BrowserRouter as Router,
   Route,
   Switch,
-} from "react-router-dom";
+} from 'react-router-dom';
+import Table from './components/Table/Table';
+import Form from './components/Form/Form';
+import Header from './components/Header/Header';
+import Title from './components/Title/Title';
+import Creater from './components/Creater/Creater';
 
-import dataPeople from './data/dataPeople.json'
-import dataPlanets from './data/dataPlanets.json'
-import dataStarships from './data/dataStarships.json'
-import headerList from './data/headerList.json'
+import dataPeople from './data/dataPeople.json';
+import dataPlanets from './data/dataPlanets.json';
+import dataStarships from './data/dataStarships.json';
+import headerList from './data/headerList.json';
 
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -21,13 +22,13 @@ import 'bootstrap/dist/css/bootstrap.css';
 let path = 'people';
 let data = dataPeople;
 
-let columns = Object.keys(data[0]);
+const columns = Object.keys(data[0]);
 
 function App() {
   const [listPeople, setPeople] = useState(dataPeople);
   const [listPlanets, setPlanets] = useState(dataPlanets);
   const [listStarships, setStarships] = useState(dataStarships);
-  
+
   const changeData = (event) => {
     path = event.currentTarget.textContent.toLowerCase();
     if (path === 'planets') {
@@ -40,64 +41,65 @@ function App() {
       data = [...listPeople];
       setPeople(data);
     }
-  }
+  };
 
-  const handleAppItem = (path, listData) => {
-    if (path.toLowerCase() === 'planets') {
+  const handleAppItem = (pathName, listData) => {
+    if (pathName.toLowerCase() === 'planets') {
       data = [...listPlanets, listData];
       setPlanets(data);
-    } else if (path.toLowerCase() === 'starships') {
+    } else if (pathName.toLowerCase() === 'starships') {
       data = [...listStarships, listData];
       setStarships(data);
-    } else if (path.toLowerCase() === 'people') {
+    } else if (pathName.toLowerCase() === 'people') {
       data = [...listPeople, listData];
       setPeople(data);
     }
-  }
+  };
 
-  const handleDeleteItem = (path, deleteNumber) => {
-    if (path.toLowerCase() === 'planets') {
+  const handleDeleteItem = (pathName, deleteNumber) => {
+    if (pathName.toLowerCase() === 'planets') {
       const listPlanetsCopy = [...listPlanets];
       listPlanetsCopy.splice(deleteNumber, 1);
       data = [...listPlanetsCopy];
       setPlanets(data);
-    } else if (path.toLowerCase() === 'starships') {
+    } else if (pathName.toLowerCase() === 'starships') {
       const listStarshipsCopy = [...listStarships];
       listStarshipsCopy.splice(deleteNumber, 1);
       data = [...listStarshipsCopy];
       setStarships(data);
-    } else if (path.toLowerCase() === 'people') {
+    } else if (pathName.toLowerCase() === 'people') {
       const listPeopleCopy = [...listPeople];
       listPeopleCopy.splice(deleteNumber, 1);
       data = [...listPeopleCopy];
       setPeople(data);
     }
-  }
+  };
 
-  const getInitialData = () => {
-    return columns.reduce((cols, columnName) => {
-      cols[columnName] = "";
-      return cols;
-    }, {})
-  }
+  const getInitialData = () => columns.reduce((cols, columnName) => {
+    cols[columnName] = '';
+    return cols;
+  }, {});
 
   return (
     <div className="wrapper">
       <Router>
-        <Header 
-          headerList={headerList} 
+        <Header
+          headerList={headerList}
           changeData={changeData}
         />
         <Switch>
           <Route exact path="/">
-            <main className="main">In this place will be Main Page. But I'm not sure😄</main>
+            <main className="main">
+              In this place will be Main Page. But I&apos;m not sure
+              <span role="img" aria-label="">😄</span>
+            </main>
           </Route>
           <Route path={(`/${path.toLowerCase()}`)}>
             <div className="table-wrapper">
-              <Title titleDescriptor={path}/>
-              <Creater 
+              <Title titleDescriptor={path} />
+              <Creater
                 createrDescriptor={path}
-              /> 
+              />
               <Table
                 data={data}
                 path={path}

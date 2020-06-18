@@ -1,47 +1,50 @@
+/* eslint-disable no-param-reassign */
 import React, { useState } from 'react';
-import Input from "../Input/Input";
-import SaveButton from "../SaveButton/SaveButton";
+import PropTypes from 'prop-types';
+import Input from '../Input/Input';
+import SaveButton from '../SaveButton/SaveButton';
+
 import './Form.scss';
 
-
-const Form = ({path, columns, initialData, onAddData}) => {
+const Form = ({
+  path, columns, initialData, onAddData,
+}) => {
   const [personData, setPersonData] = useState(initialData);
 
   const handleClick = (event) => {
     const inputs = Array.from(document.getElementsByClassName('form-control'));
-    inputs.forEach((input) => {
-      if (input.value === '') {
+    inputs.forEach((inputItem) => {
+      if (inputItem.value === '') {
         event.preventDefault();
-        input.classList.add('input-invalid');
-      } 
-      if (inputs.every(input => input.value !== '')) {
-        onAddData(path.toLowerCase(), personData);
-        input.value = '';
+        inputItem.classList.add('input-invalid');
       }
-    })
-  }
+      if (inputs.every((item) => item.value !== '')) {
+        onAddData(path.toLowerCase(), personData);
+        inputItem.value = '';
+      }
+    });
+  };
 
   const handleChange = (event) => {
-    const { currentTarget : input } = event;
-    const data = {...personData};
+    const { currentTarget: input } = event;
+    const data = { ...personData };
     if (input.value !== '') {
       data[input.name] = input.value;
       setPersonData(data);
       input.classList.add('input-valid');
     }
-  }
+  };
 
   return (
     <div className="wrapper-form">
       <form className="input-form">
-        {columns.map( columnName => (
+        {columns.map((columnName) => (
           <Input
             id={columnName}
             key={columnName}
             name={columnName}
             label={columnName}
             value={personData[columnName]}
-            type="input"
             onChange={handleChange}
           />
         ))}
@@ -54,6 +57,13 @@ const Form = ({path, columns, initialData, onAddData}) => {
       </form>
     </div>
   );
+};
+
+Form.propTypes = {
+  path: PropTypes.string.isRequired,
+  columns: PropTypes.arrayOf(PropTypes.string).isRequired,
+  initialData: PropTypes.objectOf(PropTypes.string).isRequired,
+  onAddData: PropTypes.func.isRequired,
 };
 
 export default Form;
