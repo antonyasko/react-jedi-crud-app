@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -10,38 +10,42 @@ import Form from './components/Form/Form';
 import Header from './components/Header/Header';
 import Title from './components/Title/Title';
 import Creater from './components/Creater/Creater';
+import getData from './services/getData';
 
-import dataPeople from './data/dataPeople.json';
-import dataPlanets from './data/dataPlanets.json';
-import dataStarships from './data/dataStarships.json';
 import headerList from './data/headerList.json';
 
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.css';
 
 let path = 'people';
-let data = dataPeople;
-
-const columns = Object.keys(data[0]);
+let data;
 
 function App() {
-  const [listPeople, setPeople] = useState(dataPeople);
-  const [listPlanets, setPlanets] = useState(dataPlanets);
-  const [listStarships, setStarships] = useState(dataStarships);
+  const [listPeople, setPeople] = useState([]);
+  const [listPlanets, setPlanets] = useState([]);
+  const [listStarships, setStarships] = useState([]);
 
-  const changeData = (event) => {
-    path = event.currentTarget.textContent.toLowerCase();
-    if (path === 'planets') {
-      data = [...listPlanets];
-      setPlanets(data);
-    } else if (path === 'starships') {
-      data = [...listStarships];
-      setStarships(data);
-    } else if (path === 'people') {
-      data = [...listPeople];
-      setPeople(data);
-    }
-  };
+  useEffect(() => {
+    (async () => {
+      const planetsData = await getData('planets');
+      setPlanets(planetsData);
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const peopleData = await getData('people');
+      setPeople(peopleData);
+    })();
+  }, []);
+
+  useEffect(() => {
+    const getStarshipsData = async () => {
+      const starshipsData = await getData('starships');
+      setStarships(starshipsData);
+    };
+    getStarshipsData();
+  }, []);
 
   const handleAppItem = (pathName, listData) => {
     if (pathName.toLowerCase() === 'planets') {
@@ -75,10 +79,40 @@ function App() {
     }
   };
 
-  const getInitialData = () => columns.reduce((cols, columnName) => {
+  const getColumnNames = () => {
+    switch (path) {
+      case 'planets': {
+        return ((!listPlanets.length) ? [] : Object.keys(listPlanets[0]));
+      }
+      case 'starships': {
+        return ((!listStarships.length) ? [] : Object.keys(listStarships[0]));
+      }
+      case 'people': {
+        return ((!listPeople.length) ? [] : Object.keys(listPeople[0]));
+      }
+      default:
+        return [];
+    }
+  };
+
+  const getInitialData = () => getColumnNames().reduce((cols, columnName) => {
     cols[columnName] = '';
     return cols;
   }, {});
+
+  const changeData = (event) => {
+    path = event.currentTarget.textContent.toLowerCase();
+    if (path === 'planets') {
+      data = [...listPlanets];
+      setPlanets(data);
+    } else if (path === 'starships') {
+      data = [...listStarships];
+      setStarships(data);
+    } else if (path === 'people') {
+      data = [...listPeople];
+      setPeople(data);
+    }
+  };
 
   return (
     <div className="wrapper">
@@ -103,7 +137,7 @@ function App() {
               <Table
                 data={data}
                 path={path}
-                columns={columns}
+                columns={getColumnNames()}
                 tableDescriptor={path}
                 onDeleteData={handleDeleteItem}
               />
@@ -113,7 +147,7 @@ function App() {
             <Form
               path={path}
               initialData={getInitialData()}
-              columns={columns}
+              columns={getColumnNames()}
               onAddData={handleAppItem}
             />
           </Route>
