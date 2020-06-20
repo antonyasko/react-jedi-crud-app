@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Input from '../Input/Input';
 import SaveButton from '../SaveButton/SaveButton';
+import inputValidation from '../../services/inputValidation';
 
 import './Form.scss';
 
@@ -23,17 +24,25 @@ const Form = ({
 
   const handleClick = (event) => {
     const inputs = Array.from(document.getElementsByClassName('form-control'));
-    inputs.forEach((inputItem) => {
-      if (inputItem.value === '') {
-        event.preventDefault();
-        inputItem.classList.add('input-invalid');
-      }
-      if (inputs.every((item) => item.value !== '')) {
-        onAddData(path.toLowerCase(), data, personData, listPlanets, listPeople, listStarships,
-          setPlanets, setPeople, setStarships);
-        inputItem.value = '';
-      }
-    });
+
+    if (inputs.every((input) => inputValidation(input, data))) {
+      inputs.forEach((input) => {
+        if (input.name === 'gender' && input.value === '') {
+          input.value = 'n/a';
+        }
+      });
+      onAddData(path.toLowerCase(), data, personData, listPlanets, listPeople, listStarships,
+        setPlanets, setPeople, setStarships);
+      // inputItem.value = '';
+    } else {
+      event.preventDefault();
+      inputs.forEach((input) => {
+        inputValidation(input, data);
+        if (!inputValidation(input, data)) {
+          input.value = '';
+        }
+      });
+    }
   };
 
   const handleChange = (event) => {
@@ -42,7 +51,7 @@ const Form = ({
     if (input.value !== '') {
       changeData[input.name] = input.value;
       setData(changeData);
-      input.classList.add('input-valid');
+      // input.classList.add('input-valid');
     }
   };
 

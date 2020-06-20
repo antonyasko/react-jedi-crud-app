@@ -14,6 +14,7 @@ const Input = ({
       className="form-control"
       type="input"
       value={value}
+      placeholder={name}
       onChange={onChange}
       required
     />
