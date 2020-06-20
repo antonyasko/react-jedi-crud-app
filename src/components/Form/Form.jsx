@@ -7,9 +7,19 @@ import SaveButton from '../SaveButton/SaveButton';
 import './Form.scss';
 
 const Form = ({
-  path, columns, initialData, onAddData,
+  path,
+  data,
+  columns,
+  initialData,
+  onAddData,
+  listPeople,
+  listPlanets,
+  listStarships,
+  setPeople,
+  setPlanets,
+  setStarships,
 }) => {
-  const [personData, setPersonData] = useState(initialData);
+  const [personData, setData] = useState(initialData);
 
   const handleClick = (event) => {
     const inputs = Array.from(document.getElementsByClassName('form-control'));
@@ -19,7 +29,8 @@ const Form = ({
         inputItem.classList.add('input-invalid');
       }
       if (inputs.every((item) => item.value !== '')) {
-        onAddData(path.toLowerCase(), personData);
+        onAddData(path.toLowerCase(), data, personData, listPlanets, listPeople, listStarships,
+          setPlanets, setPeople, setStarships);
         inputItem.value = '';
       }
     });
@@ -27,10 +38,10 @@ const Form = ({
 
   const handleChange = (event) => {
     const { currentTarget: input } = event;
-    const data = { ...personData };
+    const changeData = { ...personData };
     if (input.value !== '') {
-      data[input.name] = input.value;
-      setPersonData(data);
+      changeData[input.name] = input.value;
+      setData(changeData);
       input.classList.add('input-valid');
     }
   };
@@ -49,7 +60,7 @@ const Form = ({
           />
         ))}
         <SaveButton
-          path={path}
+          path={path.toLowerCase()}
           onClick={handleClick}
           label="Save"
           classes="alert alert-danger"
@@ -61,9 +72,16 @@ const Form = ({
 
 Form.propTypes = {
   path: PropTypes.string.isRequired,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
   columns: PropTypes.arrayOf(PropTypes.string).isRequired,
   initialData: PropTypes.objectOf(PropTypes.string).isRequired,
   onAddData: PropTypes.func.isRequired,
+  listPeople: PropTypes.arrayOf(PropTypes.object).isRequired,
+  listPlanets: PropTypes.arrayOf(PropTypes.object).isRequired,
+  listStarships: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setPeople: PropTypes.func.isRequired,
+  setPlanets: PropTypes.func.isRequired,
+  setStarships: PropTypes.func.isRequired,
 };
 
 export default Form;
