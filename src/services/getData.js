@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 const url = 'https://swapi.dev/api';
-
 const minRandom = 10;
 const maxRandom = 99;
 

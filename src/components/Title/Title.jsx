@@ -6,9 +6,7 @@ import './Title.scss';
 function Title({ titleDescriptor }) {
   return (
     <h2 className="title">
-      {titleDescriptor}
-      {' '}
-      from Star Wars Universe
+      {`${titleDescriptor[0].toUpperCase()}${titleDescriptor.slice(1)} from Star Wars Universe`}
     </h2>
   );
 }

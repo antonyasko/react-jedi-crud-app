@@ -33,7 +33,6 @@ const Form = ({
       });
       onAddData(path.toLowerCase(), data, personData, listPlanets, listPeople, listStarships,
         setPlanets, setPeople, setStarships);
-      // inputItem.value = '';
     } else {
       event.preventDefault();
       inputs.forEach((input) => {
@@ -51,7 +50,6 @@ const Form = ({
     if (input.value !== '') {
       changeData[input.name] = input.value;
       setData(changeData);
-      // input.classList.add('input-valid');
     }
   };
 

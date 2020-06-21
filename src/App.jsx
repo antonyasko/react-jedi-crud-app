@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable no-param-reassign */
 import React, { useState, useEffect } from 'react';
 import {
@@ -14,14 +15,22 @@ import Creater from './components/Creater/Creater';
 import getData from './services/getData';
 import getColumnNames from './services/getColumnNames';
 import handleAddItem from './services/handleAddItem';
+import addStartData from './services/addStartData';
 
 import headerList from './data/headerList.json';
 
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.css';
 
-let path = headerList[0];
-let data = [];
+let path = headerList[0].toLowerCase();
+
+if (headerList.some((item) => item.toLowerCase()
+=== window.location.pathname.slice(1).toLowerCase())
+&& window.location.pathname.slice(1) !== '') {
+  path = window.location.pathname.slice(1).toLowerCase();
+} else if (window.location.pathname.slice(1) === '') {
+  path = '';
+}
 
 function App() {
   const [listPeople, setPeople] = useState([]);
@@ -67,25 +76,39 @@ function App() {
     })();
   }, []);
 
+  let data = addStartData(path, listPlanets, listStarships, listPeople);
+
   const handleDeleteItem = (pathName, deleteNumber) => {
     if (pathName.toLowerCase() === 'planets') {
-      const listPlanetsCopy = [...listPlanets];
-      listPlanetsCopy.splice(deleteNumber, 1);
-      data = [...listPlanetsCopy];
-      localStorage.setItem('list-planets-key', JSON.stringify(data));
-      setPlanets(data);
+      if (listPlanets.length > 1) {
+        const listPlanetsCopy = [...listPlanets];
+        listPlanetsCopy.splice(deleteNumber, 1);
+        data = [...listPlanetsCopy];
+        localStorage.setItem('list-planets-key', JSON.stringify(data));
+        setPlanets(data);
+      } else {
+        alert('Can not remove last element');
+      }
     } else if (pathName.toLowerCase() === 'starships') {
-      const listStarshipsCopy = [...listStarships];
-      listStarshipsCopy.splice(deleteNumber, 1);
-      data = [...listStarshipsCopy];
-      localStorage.setItem('list-starships-key', JSON.stringify(data));
-      setStarships(data);
+      if (listStarships.length > 1) {
+        const listStarshipsCopy = [...listStarships];
+        listStarshipsCopy.splice(deleteNumber, 1);
+        data = [...listStarshipsCopy];
+        localStorage.setItem('list-starships-key', JSON.stringify(data));
+        setStarships(data);
+      } else {
+        alert('Can not remove last element');
+      }
     } else if (pathName.toLowerCase() === 'people') {
-      const listPeopleCopy = [...listPeople];
-      listPeopleCopy.splice(deleteNumber, 1);
-      data = [...listPeopleCopy];
-      localStorage.setItem('list-people-key', JSON.stringify(data));
-      setPeople(data);
+      if (listPeople.length > 1) {
+        const listPeopleCopy = [...listPeople];
+        listPeopleCopy.splice(deleteNumber, 1);
+        data = [...listPeopleCopy];
+        localStorage.setItem('list-people-key', JSON.stringify(data));
+        setPeople(data);
+      } else {
+        alert('Can not remove last element');
+      }
     }
   };
 
@@ -144,19 +167,22 @@ function App() {
             </div>
           </Route>
           <Route path="/form">
-            <Form
-              path={path.toLowerCase()}
-              data={data}
-              initialData={getInitialData()}
-              columns={getColumnNames(path, listPlanets, listStarships, listPeople)}
-              onAddData={handleAddItem}
-              listPeople={listPeople}
-              listPlanets={listPlanets}
-              listStarships={listStarships}
-              setPeople={setPeople}
-              setPlanets={setPlanets}
-              setStarships={setStarships}
-            />
+            {data.length !== 0
+              ? (
+                <Form
+                  path={path.toLowerCase()}
+                  data={data}
+                  initialData={getInitialData()}
+                  columns={getColumnNames(path, listPlanets, listStarships, listPeople)}
+                  onAddData={handleAddItem}
+                  listPeople={listPeople}
+                  listPlanets={listPlanets}
+                  listStarships={listStarships}
+                  setPeople={setPeople}
+                  setPlanets={setPlanets}
+                  setStarships={setStarships}
+                />
+              ) : <div className="error">Firstly select the page you want</div>}
           </Route>
           <Route>
             <div className="error">404 : Page not found</div>
