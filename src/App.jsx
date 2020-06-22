@@ -32,6 +32,10 @@ if (headerList.some((item) => item.toLowerCase()
   path = '';
 }
 
+if (window.location.href === `${window.location.origin}/`) {
+  window.location.replace(`${origin}/people`);
+}
+
 function App() {
   const [listPeople, setPeople] = useState([]);
   const [listPlanets, setPlanets] = useState([]);

@@ -32,32 +32,10 @@ $border: 1px solid #000000;
     background-color: $evenRowColor;
     tr {
       th {
-        // width: min-content;
         box-sizing: border-box;
         padding: 10px 15px;
         border-bottom: none;
       }
-      // th:nth-child(1) {
-      //   width: 100px !important;
-      // }
-      // th:nth-child(2) {
-      //   width: 150px !important;
-      // }
-      // th:nth-child(3) {
-      //   width: 80px !important;
-      // }
-      // th:nth-child(4) {
-      //   width: 90px !important;
-      // }
-      // th:nth-child(5) {
-      //   width: 115px !important;
-      // }
-      // th:nth-child(6) {
-      //   width: 135px !important;
-      // }
-      // th:nth-child(7) {
-      //   width: 75px !important;
-      // }
       td {
         box-sizing: border-box !important;
         width: 75px !important;
@@ -80,10 +58,21 @@ $border: 1px solid #000000;
         vertical-align: middle;
       }
       td:nth-child(2) {
-        a {
-          color: #ffa500!important;
+        button {
+          background: none;
+          border: none;
+          outline: none;
+          color: #ffa500;
+          text-align: left;
+        }
+        button:hover {
+          color: #ff3300;
         }
       }
+      td:nth-child(8) {
+        text-align: center;
+      }
+
     }
   }
 }

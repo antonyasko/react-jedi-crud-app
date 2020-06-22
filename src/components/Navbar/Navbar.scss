@@ -11,6 +11,9 @@ $hover: #ffa500;
   .logo {
     margin: 0 25px;
   }
+  .logo:hover {
+    color: $hover;
+  }
   .navbar {
     height: min-content;
     width: min-content;
