@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 
 import './Table.scss';
 
-function Table({
+const Table = ({
   data, path, columns, tableDescriptor, onDeleteData,
-}) {
+}) => {
   const deleteRow = (event) => {
     const rowNumber = event.currentTarget.closest('tr').firstChild.textContent - 1;
     onDeleteData(path.toLowerCase(), rowNumber);
@@ -54,7 +54,7 @@ function Table({
       </tbody>
     </table>
   );
-}
+};
 
 Table.propTypes = {
   path: PropTypes.string.isRequired,

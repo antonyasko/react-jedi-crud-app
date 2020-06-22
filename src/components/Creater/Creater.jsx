@@ -4,21 +4,16 @@ import PropTypes from 'prop-types';
 
 import './Creater.scss';
 
-function Creater({ createrDescriptor }) {
-  return (
-    <NavLink to="/form">
-      <button
-        type="button"
-        className="button-creater"
-      >
-        New
-        {' '}
-        {createrDescriptor}
-      </button>
-    </NavLink>
-
-  );
-}
+const Creater = ({ createrDescriptor }) => (
+  <NavLink to="/form">
+    <button
+      type="button"
+      className="button-creater"
+    >
+      {`New ${createrDescriptor}`}
+    </button>
+  </NavLink>
+);
 
 Creater.propTypes = {
   createrDescriptor: PropTypes.string.isRequired,

@@ -145,6 +145,7 @@ function App() {
     <div className="wrapper">
       <Router>
         <Navbar
+          path={path}
           headerList={headerList}
           changeData={changeData}
         />

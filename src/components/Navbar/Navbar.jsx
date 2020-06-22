@@ -4,37 +4,36 @@ import PropTypes from 'prop-types';
 
 import './Navbar.scss';
 
-function Header({ headerList, changeData }) {
-  return (
-    <header className="header">
-      <NavLink exact to="/">
-        <h1 className="logo">JEDI</h1>
-      </NavLink>
-      <nav className="navbar">
-        <ul>
-          {headerList.map((item) => (
-            <NavLink key={item} to={`/${item.toLowerCase()}`}>
-              <li>
-                <button
-                  className={
-                    (window.location.pathname.slice(1) === item.toLowerCase())
+const Header = ({ path, headerList, changeData }) => (
+  <header className="header">
+    <NavLink exact to="/">
+      <h1 className="logo">JEDI</h1>
+    </NavLink>
+    <nav className="navbar">
+      <ul>
+        {headerList.map((item) => (
+          <NavLink key={item} to={`/${item.toLowerCase()}`}>
+            <li>
+              <button
+                className={
+                    (path.toLowerCase() === item.toLowerCase())
                       ? 'active' : ''
                     }
-                  type="button"
-                  onClick={changeData}
-                >
-                  {item}
-                </button>
-              </li>
-            </NavLink>
-          ))}
-        </ul>
-      </nav>
-    </header>
-  );
-}
+                type="button"
+                onClick={changeData}
+              >
+                {item}
+              </button>
+            </li>
+          </NavLink>
+        ))}
+      </ul>
+    </nav>
+  </header>
+);
 
 Header.propTypes = {
+  path: PropTypes.string.isRequired,
   changeData: PropTypes.func.isRequired,
   headerList: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
