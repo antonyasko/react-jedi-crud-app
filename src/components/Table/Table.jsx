@@ -14,22 +14,6 @@ function Table({
     onDeleteData(path.toLowerCase(), rowNumber);
   };
 
-  const changeRow = (event) => {
-    const row = event.currentTarget.closest('tr');
-    const rowIndex = row.sectionRowIndex;
-    const inputsContent = [];
-    for (let i = 0; i < row.childNodes.length; i++) {
-      if (row.childNodes[i].textContent
-        && row.childNodes[i].tagName !== 'TH'
-        && row.childNodes[i].firstChild.tagName !== 'BUTTON') {
-        inputsContent.push(row.childNodes[i].textContent);
-      }
-    }
-    console.log(inputsContent);
-    const inputs = JSON.parse(localStorage.getItem(`list-${path}-key`))[rowIndex];
-    console.log(inputs);
-  };
-
   return (
     <table className="table">
       <thead className="table-head">
@@ -51,7 +35,7 @@ function Table({
                 ? (
                   <td key={item[columnTitle] + columnTitle}>
                     <NavLink to="/form">
-                      <button type="button" onClick={changeRow}>
+                      <button type="button">
                         {item[columnTitle]}
                       </button>
                     </NavLink>

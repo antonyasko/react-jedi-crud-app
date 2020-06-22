@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import './SaveButton.scss';
 
 const SaveButton = ({
-  // path, onClick, label, classes, disabled,
   path, onClick, label, classes,
 }) => (
   <NavLink to={`/${path.toLowerCase()}`}>

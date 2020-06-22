@@ -15,7 +15,16 @@ function Header({ headerList, changeData }) {
           {headerList.map((item) => (
             <NavLink key={item} to={`/${item.toLowerCase()}`}>
               <li>
-                <button type="button" onClick={changeData}>{item}</button>
+                <button
+                  className={
+                    (window.location.pathname.slice(1) === item.toLowerCase())
+                      ? 'active' : ''
+                    }
+                  type="button"
+                  onClick={changeData}
+                >
+                  {item}
+                </button>
               </li>
             </NavLink>
           ))}

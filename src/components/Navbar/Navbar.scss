@@ -24,6 +24,9 @@ $hover: #ffa500;
       li {
         list-style-type: none;
         margin: 0;
+        .active {
+          color: $hover!important;
+        }
         button {
           cursor: pointer;
           outline: none;
