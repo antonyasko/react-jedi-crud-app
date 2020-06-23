@@ -17,7 +17,10 @@ import getColumnNames from './services/getColumnNames';
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.css';
 
-import { setPeople, setPlanets, setStarships } from './store/actions/actions';
+import { setPeople } from './store/actions/peopleActions';
+import { setPlanets } from './store/actions/planetsActions';
+import { setStarships } from './store/actions/starshipsActions';
+
 import { getAllPeople, getAllPlanets, getAllStarships } from './store/selectors/selectors';
 
 import headerList from './data/headerList.json';
@@ -83,40 +86,6 @@ function App() {
 
   let data = addStartData(path, listPeople, listPlanets, listStarships);
 
-  const handleDeleteItem = (pathName, deleteNumber) => {
-    if (pathName.toLowerCase() === 'people') {
-      if (listPeople.length > 1) {
-        const listPeopleCopy = [...listPeople];
-        listPeopleCopy.splice(deleteNumber, 1);
-        data = [...listPeopleCopy];
-        localStorage.setItem('list-people-key', JSON.stringify(data));
-        dispatch(setPeople(data));
-      } else {
-        alert('Can not remove last element');
-      }
-    } else if (pathName.toLowerCase() === 'planets') {
-      if (listPlanets.length > 1) {
-        const listPlanetsCopy = [...listPlanets];
-        listPlanetsCopy.splice(deleteNumber, 1);
-        data = [...listPlanetsCopy];
-        localStorage.setItem('list-planets-key', JSON.stringify(data));
-        dispatch(setPlanets(data));
-      } else {
-        alert('Can not remove last element');
-      }
-    } else if (pathName.toLowerCase() === 'starships') {
-      if (listStarships.length > 1) {
-        const listStarshipsCopy = [...listStarships];
-        listStarshipsCopy.splice(deleteNumber, 1);
-        data = [...listStarshipsCopy];
-        localStorage.setItem('list-starships-key', JSON.stringify(data));
-        dispatch(setStarships(data));
-      } else {
-        alert('Can not remove last element');
-      }
-    }
-  };
-
   const getInitialData = () => {
     const columnNames = getColumnNames(path, listPeople, listPlanets, listStarships);
     return columnNames.reduce((cols, columnName) => {
@@ -165,7 +134,6 @@ function App() {
                 data={data}
                 tableDescriptor={path}
                 path={path.toLowerCase()}
-                onDeleteData={handleDeleteItem}
                 columns={getColumnNames(path, listPeople, listPlanets, listStarships)}
               />
             </div>

@@ -9,7 +9,9 @@ import SaveButton from '../SaveButton/SaveButton';
 import handleAddItem from '../../services/handleAddItem';
 import inputValidation from '../../services/inputValidation';
 
-import { setPeople, setPlanets, setStarships } from '../../store/actions/actions';
+import { setPeople } from '../../store/actions/peopleActions';
+import { setPlanets } from '../../store/actions/planetsActions';
+import { setStarships } from '../../store/actions/starshipsActions';
 import { getAllPeople, getAllPlanets, getAllStarships } from '../../store/selectors/selectors';
 
 import './Form.scss';
@@ -28,12 +30,7 @@ const Form = ({
     const inputs = Array.from(document.getElementsByClassName('form-control'));
 
     if (inputs.every((input) => inputValidation(input, data))) {
-      inputs.forEach((input) => {
-        if (input.name === 'gender' && input.value === '') {
-          input.value = 'n/a';
-        }
-      });
-      handleAddItem(path.toLowerCase(), data, personData, listPeople, listPlanets, listStarships,
+      handleAddItem(path, data, personData, listPeople, listPlanets, listStarships,
         setPeople, setPlanets, setStarships, dispatch);
     } else {
       event.preventDefault();

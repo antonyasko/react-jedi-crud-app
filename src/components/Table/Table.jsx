@@ -1,17 +1,37 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-param-reassign */
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { deletePeople } from '../../store/actions/peopleActions';
+import { deletePlanets } from '../../store/actions/planetsActions';
+import { deleteStarships } from '../../store/actions/starshipsActions';
 
 import './Table.scss';
 
 const Table = ({
-  data, path, columns, tableDescriptor, onDeleteData,
+  data, columns, tableDescriptor,
 }) => {
-  const deleteRow = (event) => {
-    const rowNumber = event.currentTarget.closest('tr').firstChild.textContent - 1;
-    onDeleteData(path.toLowerCase(), rowNumber);
+  const dispatch = useDispatch();
+
+  const deleteRow = (id) => {
+    switch (window.location.pathname.slice(1)) {
+      case 'people': {
+        dispatch(deletePeople(id));
+        break;
+      }
+      case 'planets': {
+        dispatch(deletePlanets(id));
+        break;
+      }
+      case 'starships': {
+        dispatch(deleteStarships(id));
+        break;
+      }
+      default:
+        break;
+    }
   };
 
   return (
@@ -47,7 +67,7 @@ const Table = ({
               <input type="checkbox" />
             </td>
             <td>
-              <button className="delete-button" type="button" onClick={deleteRow}>Delete</button>
+              <button className="delete-button" type="button" onClick={() => deleteRow(item.id)}>Delete</button>
             </td>
           </tr>
         ))}
@@ -57,9 +77,7 @@ const Table = ({
 };
 
 Table.propTypes = {
-  path: PropTypes.string.isRequired,
   tableDescriptor: PropTypes.string.isRequired,
-  onDeleteData: PropTypes.func.isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   columns: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

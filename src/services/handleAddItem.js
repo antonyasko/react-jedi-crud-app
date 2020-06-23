@@ -1,17 +1,24 @@
-const handleAddItem = (path, data, listData,
-  people, planets, ships, setPeople, setPlanets, setShips, dispatch) => {
-  if (path.toLowerCase() === 'people') {
-    data.splice(0, data.length, ...people, listData);
-    localStorage.setItem('list-people-key', JSON.stringify(data));
-    dispatch(setPeople(data));
-  } else if (path.toLowerCase() === 'planets') {
-    data.splice(0, data.length, ...planets, listData);
-    localStorage.setItem('list-planets-key', JSON.stringify(data));
-    dispatch(setPlanets(data));
-  } else if (path.toLowerCase() === 'starships') {
-    data.splice(0, data.length, ...ships, listData);
-    localStorage.setItem('list-starships-key', JSON.stringify(data));
-    dispatch(setShips(data));
+const handleAddItem = (path, data, listData, people, planets, ships,
+  setPeople, setPlanets, setShips, dispatch) => {
+  switch (path) {
+    case 'people': {
+      data.splice(0, data.length, ...people, listData);
+      localStorage.setItem('list-people-key', JSON.stringify(data));
+      dispatch(setPeople(data));
+      break;
+    }
+    case 'planets': {
+      localStorage.setItem('list-planets-key', JSON.stringify([...planets, listData]));
+      dispatch(setPlanets([...planets, listData]));
+      break;
+    }
+    case 'starships': {
+      localStorage.setItem('list-starships-key', JSON.stringify([...ships, listData]));
+      dispatch(setShips([...ships, listData]));
+      break;
+    }
+    default:
+      break;
   }
 };
 
