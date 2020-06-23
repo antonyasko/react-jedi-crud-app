@@ -1,26 +1,38 @@
 /* eslint-disable no-param-reassign */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';//
+
 import Input from '../Input/Input';
 import SaveButton from '../SaveButton/SaveButton';
 import inputValidation from '../../services/inputValidation';
 
+import handleAddItem from '../../services/handleAddItem';
+
+import { setPeople, setPlanets, setStarships } from '../../store/actions/actions';//
+import { getAllPeople, getAllPlanets, getAllStarships } from '../../store/selectors/selectors';//
+
 import './Form.scss';
 
 const Form = ({
-  path,
   data,
-  columns,
+  path,
+  // onAddData,
   initialData,
-  onAddData,
-  listPeople,
-  listPlanets,
-  listStarships,
-  setPeople,
-  setPlanets,
-  setStarships,
+  columns,
+  // listPeople,      //
+  // listPlanets,     //
+  // listStarships,     //
+  // setPeople,     //
+  // setPlanets,      //
+  // setStarships,      //
 }) => {
   const [personData, setData] = useState(initialData);
+
+  const dispatch = useDispatch();//
+  const listPeople = useSelector((state) => getAllPeople(state));//
+  const listPlanets = useSelector((state) => getAllPlanets(state));//
+  const listStarships = useSelector((state) => getAllStarships(state));//
 
   const handleClick = (event) => {
     const inputs = Array.from(document.getElementsByClassName('form-control'));
@@ -31,8 +43,8 @@ const Form = ({
           input.value = 'n/a';
         }
       });
-      onAddData(path.toLowerCase(), data, personData, listPlanets, listPeople, listStarships,
-        setPlanets, setPeople, setStarships);
+      handleAddItem(path.toLowerCase(), data, personData, listPeople, listPlanets, listStarships,
+        setPeople, setPlanets, setStarships, dispatch);
     } else {
       event.preventDefault();
       inputs.forEach((input) => {
@@ -78,17 +90,17 @@ const Form = ({
 };
 
 Form.propTypes = {
-  path: PropTypes.string.isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  columns: PropTypes.arrayOf(PropTypes.string).isRequired,
+  path: PropTypes.string.isRequired,
+  // onAddData: PropTypes.func.isRequired,
   initialData: PropTypes.objectOf(PropTypes.string).isRequired,
-  onAddData: PropTypes.func.isRequired,
-  listPeople: PropTypes.arrayOf(PropTypes.object).isRequired,
-  listPlanets: PropTypes.arrayOf(PropTypes.object).isRequired,
-  listStarships: PropTypes.arrayOf(PropTypes.object).isRequired,
-  setPeople: PropTypes.func.isRequired,
-  setPlanets: PropTypes.func.isRequired,
-  setStarships: PropTypes.func.isRequired,
+  columns: PropTypes.arrayOf(PropTypes.string).isRequired,
+  // listPeople: PropTypes.arrayOf(PropTypes.object).isRequired,      //
+  // listPlanets: PropTypes.arrayOf(PropTypes.object).isRequired,     //
+  // listStarships: PropTypes.arrayOf(PropTypes.object).isRequired,     //
+  // setPeople: PropTypes.func.isRequired,      //
+  // setPlanets: PropTypes.func.isRequired,     //
+  // setStarships: PropTypes.func.isRequired,     //
 };
 
 export default Form;

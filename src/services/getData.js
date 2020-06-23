@@ -10,6 +10,13 @@ const getData = async (path) => {
   });
   const data = await response.json();
   switch (path) {
+    case 'people':
+      return data.results.map(({
+        name, height, mass, gender, birth_year,
+        id = `${name.split(' ').shift()}-${Math.floor(Math.random() * (maxRandom - minRandom + 1)) + minRandom}`,
+      }) => ({
+        name, height, mass, gender, birth_year, id,
+      }));
     case 'planets':
       return data.results.map(({
         name, diameter, climate, terrain, population,
@@ -23,13 +30,6 @@ const getData = async (path) => {
         id = `${name.split(' ').shift()}-${Math.floor(Math.random() * (maxRandom - minRandom + 1)) + minRandom}`,
       }) => ({
         name, length, crew, passengers, starship_class, id,
-      }));
-    case 'people':
-      return data.results.map(({
-        name, height, mass, gender, birth_year,
-        id = `${name.split(' ').shift()}-${Math.floor(Math.random() * (maxRandom - minRandom + 1)) + minRandom}`,
-      }) => ({
-        name, height, mass, gender, birth_year, id,
       }));
     default:
       return [];

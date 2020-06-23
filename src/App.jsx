@@ -1,26 +1,30 @@
 /* eslint-disable no-alert */
 /* eslint-disable no-param-reassign */
-import React, { useState, useEffect } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-} from 'react-router-dom';
-import Table from './components/Table/Table';
+// import React, { useState, useEffect } from 'react';      //
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';//
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
 import Form from './components/Form/Form';
-import Navbar from './components/Navbar/Navbar';
+import Table from './components/Table/Table';
 import Title from './components/Title/Title';
+import Navbar from './components/Navbar/Navbar';
 import Creater from './components/Creater/Creater';
 
 import getData from './services/getData';
-import getColumnNames from './services/getColumnNames';
-import handleAddItem from './services/handleAddItem';
 import addStartData from './services/addStartData';
-
-import headerList from './data/headerList.json';
+// import handleAddItem from './services/handleAddItem';
+import getColumnNames from './services/getColumnNames';
 
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.css';
+
+import getAllPeople from './store/selectors/peopleSelector';//
+import getAllPlanets from './store/selectors/planetsSelector';//
+import getAllStarships from './store/selectors/starshipsSelector';//
+import { setPeople, setPlanets, setStarships } from './store/actions/actions';//
+
+import headerList from './data/headerList.json';
 
 let path = headerList[0].toLowerCase();
 
@@ -37,22 +41,13 @@ if (window.location.href === `${window.location.origin}/`) {
 }
 
 function App() {
-  const [listPeople, setPeople] = useState([]);
-  const [listPlanets, setPlanets] = useState([]);
-  const [listStarships, setStarships] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      let planetsData;
-      if (localStorage.getItem('list-planets-key')) {
-        planetsData = JSON.parse(localStorage.getItem('list-planets-key'));
-      } else {
-        planetsData = await getData('planets');
-        localStorage.setItem('list-planets-key', JSON.stringify(planetsData));
-      }
-      setPlanets(planetsData);
-    })();
-  }, []);
+  const dispatch = useDispatch();//
+  // const [listPeople, setPeople] = useState([]);      //
+  // const [listPlanets, setPlanets] = useState([]);      //
+  // const [listStarships, setStarships] = useState([]);      //
+  const listPeople = useSelector((state) => getAllPeople(state));//
+  const listPlanets = useSelector((state) => getAllPlanets(state));//
+  const listStarships = useSelector((state) => getAllStarships(state));//
 
   useEffect(() => {
     (async () => {
@@ -63,7 +58,22 @@ function App() {
         peopleData = await getData('people');
         localStorage.setItem('list-people-key', JSON.stringify(peopleData));
       }
-      setPeople(peopleData);
+      // setPeople(peopleData);     //
+      dispatch(setPeople(peopleData)); //
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      let planetsData;
+      if (localStorage.getItem('list-planets-key')) {
+        planetsData = JSON.parse(localStorage.getItem('list-planets-key'));
+      } else {
+        planetsData = await getData('planets');
+        localStorage.setItem('list-planets-key', JSON.stringify(planetsData));
+      }
+      // setPlanets(planetsData);
+      dispatch(setPlanets(planetsData)); //
     })();
   }, []);
 
@@ -76,20 +86,33 @@ function App() {
         starshipsData = await getData('starships');
         localStorage.setItem('list-starships-key', JSON.stringify(starshipsData));
       }
-      setStarships(starshipsData);
+      // setStarships(starshipsData);     //
+      dispatch(setStarships(starshipsData)); //
     })();
   }, []);
 
-  let data = addStartData(path, listPlanets, listStarships, listPeople);
+  let data = addStartData(path, listPeople, listPlanets, listStarships);
 
   const handleDeleteItem = (pathName, deleteNumber) => {
-    if (pathName.toLowerCase() === 'planets') {
+    if (pathName.toLowerCase() === 'people') {
+      if (listPeople.length > 1) {
+        const listPeopleCopy = [...listPeople];
+        listPeopleCopy.splice(deleteNumber, 1);
+        data = [...listPeopleCopy];
+        localStorage.setItem('list-people-key', JSON.stringify(data));
+        // setPeople(data);     //
+        dispatch(setPeople(data)); //
+      } else {
+        alert('Can not remove last element');
+      }
+    } else if (pathName.toLowerCase() === 'planets') {
       if (listPlanets.length > 1) {
         const listPlanetsCopy = [...listPlanets];
         listPlanetsCopy.splice(deleteNumber, 1);
         data = [...listPlanetsCopy];
         localStorage.setItem('list-planets-key', JSON.stringify(data));
-        setPlanets(data);
+        // setPlanets(data);      //
+        dispatch(setPlanets(data)); //
       } else {
         alert('Can not remove last element');
       }
@@ -99,17 +122,8 @@ function App() {
         listStarshipsCopy.splice(deleteNumber, 1);
         data = [...listStarshipsCopy];
         localStorage.setItem('list-starships-key', JSON.stringify(data));
-        setStarships(data);
-      } else {
-        alert('Can not remove last element');
-      }
-    } else if (pathName.toLowerCase() === 'people') {
-      if (listPeople.length > 1) {
-        const listPeopleCopy = [...listPeople];
-        listPeopleCopy.splice(deleteNumber, 1);
-        data = [...listPeopleCopy];
-        localStorage.setItem('list-people-key', JSON.stringify(data));
-        setPeople(data);
+        // setStarships(data);      //
+        dispatch(setStarships(data)); //
       } else {
         alert('Can not remove last element');
       }
@@ -117,7 +131,7 @@ function App() {
   };
 
   const getInitialData = () => {
-    const columnNames = getColumnNames(path, listPlanets, listStarships, listPeople);
+    const columnNames = getColumnNames(path, listPeople, listPlanets, listStarships);
     return columnNames.reduce((cols, columnName) => {
       cols[columnName] = '';
       return cols;
@@ -126,18 +140,21 @@ function App() {
 
   const changeData = (event) => {
     path = event.currentTarget.textContent;
-    if (path.toLowerCase() === 'planets') {
+    if (path.toLowerCase() === 'people') {
+      data = [...listPeople];
+      localStorage.setItem('list-people-key', JSON.stringify(data));
+      // setPeople(data);     //
+      dispatch(setPeople(data)); //
+    } else if (path.toLowerCase() === 'planets') {
       data = [...listPlanets];
       localStorage.setItem('list-planets-key', JSON.stringify(data));
-      setPlanets(data);
+      // setPlanets(data);      //
+      dispatch(setPlanets(data)); //
     } else if (path.toLowerCase() === 'starships') {
       data = [...listStarships];
       localStorage.setItem('list-starships-key', JSON.stringify(data));
-      setStarships(data);
-    } else if (path.toLowerCase() === 'people') {
-      data = [...listPeople];
-      localStorage.setItem('list-people-key', JSON.stringify(data));
-      setPeople(data);
+      // setStarships(data);      //
+      dispatch(setStarships(data)); //
     }
   };
 
@@ -153,21 +170,19 @@ function App() {
           <Route exact path="/">
             <main className="main">
               In this place will be Main Page. But I&apos;m not sure
-              <span role="img" aria-label="">😄</span>
+              <span role="img" aria-label="smile">😄</span>
             </main>
           </Route>
           <Route path={(`/${path.toLowerCase()}`)}>
             <div className="table-wrapper">
               <Title titleDescriptor={path} />
-              <Creater
-                createrDescriptor={path.toLowerCase()}
-              />
+              <Creater createrDescriptor={path.toLowerCase()} />
               <Table
                 data={data}
-                path={path.toLowerCase()}
-                columns={getColumnNames(path, listPlanets, listStarships, listPeople)}
                 tableDescriptor={path}
+                path={path.toLowerCase()}
                 onDeleteData={handleDeleteItem}
+                columns={getColumnNames(path, listPeople, listPlanets, listStarships)}
               />
             </div>
           </Route>
@@ -175,17 +190,17 @@ function App() {
             {data.length !== 0
               ? (
                 <Form
-                  path={path.toLowerCase()}
                   data={data}
+                  path={path.toLowerCase()}
+                  // onAddData={handleAddItem}
                   initialData={getInitialData()}
                   columns={getColumnNames(path, listPlanets, listStarships, listPeople)}
-                  onAddData={handleAddItem}
-                  listPeople={listPeople}
-                  listPlanets={listPlanets}
-                  listStarships={listStarships}
-                  setPeople={setPeople}
-                  setPlanets={setPlanets}
-                  setStarships={setStarships}
+                  // listPeople={listPeople}
+                  // listPlanets={listPlanets}
+                  // listStarships={listStarships}
+                  // setPeople={setPeople}
+                  // setPlanets={setPlanets}
+                  // setStarships={setStarships}
                 />
               ) : <div className="error">Firstly select the page you want</div>}
           </Route>

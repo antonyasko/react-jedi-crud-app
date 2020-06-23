@@ -1,13 +1,13 @@
-const addStartData = (path, listPlanets, listStarships, listPeople) => {
+const addStartData = (path, listPeople, listPlanets, listStarships) => {
   switch (path.toLowerCase()) {
+    case 'people': {
+      return [...listPeople];
+    }
     case 'planets': {
       return [...listPlanets];
     }
     case 'starships': {
       return [...listStarships];
-    }
-    case 'people': {
-      return [...listPeople];
     }
     default:
       return [];
