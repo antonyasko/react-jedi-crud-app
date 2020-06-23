@@ -15,12 +15,12 @@ const Header = ({ path, headerList, changeData }) => (
           <NavLink key={item} to={`/${item.toLowerCase()}`}>
             <li>
               <button
-                className={
-                    (path.toLowerCase() === item.toLowerCase())
-                      ? 'active' : ''
-                    }
                 type="button"
                 onClick={changeData}
+                className={
+                  (path.toLowerCase() === item.toLowerCase())
+                    ? 'active' : ''
+                }
               >
                 {item}
               </button>

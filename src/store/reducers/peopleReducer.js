@@ -1,4 +1,4 @@
-import { SET_PEOPLE } from '../actions/peopleAction';
+import { SET_PEOPLE } from '../actions/actions';
 
 const initialState = {
   allPeople: [],

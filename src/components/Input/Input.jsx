@@ -4,18 +4,18 @@ import PropTypes from 'prop-types';
 import './Input.scss';
 
 const Input = ({
-  id, name, label, value, onChange,
+  id, name, label, onChange, value,
 }) => (
   <div className="form-group">
     <label htmlFor={name}>{label}</label>
     <input
       id={id}
       name={name}
-      className="form-control"
       type="input"
       value={value}
       placeholder={name}
       onChange={onChange}
+      className="form-control"
       required
     />
   </div>

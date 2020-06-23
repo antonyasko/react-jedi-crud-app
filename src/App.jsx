@@ -1,8 +1,7 @@
 /* eslint-disable no-alert */
 /* eslint-disable no-param-reassign */
-// import React, { useState, useEffect } from 'react';      //
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';//
+import { useSelector, useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Form from './components/Form/Form';
@@ -13,16 +12,13 @@ import Creater from './components/Creater/Creater';
 
 import getData from './services/getData';
 import addStartData from './services/addStartData';
-// import handleAddItem from './services/handleAddItem';
 import getColumnNames from './services/getColumnNames';
 
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.css';
 
-import getAllPeople from './store/selectors/peopleSelector';//
-import getAllPlanets from './store/selectors/planetsSelector';//
-import getAllStarships from './store/selectors/starshipsSelector';//
-import { setPeople, setPlanets, setStarships } from './store/actions/actions';//
+import { setPeople, setPlanets, setStarships } from './store/actions/actions';
+import { getAllPeople, getAllPlanets, getAllStarships } from './store/selectors/selectors';
 
 import headerList from './data/headerList.json';
 
@@ -41,13 +37,10 @@ if (window.location.href === `${window.location.origin}/`) {
 }
 
 function App() {
-  const dispatch = useDispatch();//
-  // const [listPeople, setPeople] = useState([]);      //
-  // const [listPlanets, setPlanets] = useState([]);      //
-  // const [listStarships, setStarships] = useState([]);      //
-  const listPeople = useSelector((state) => getAllPeople(state));//
-  const listPlanets = useSelector((state) => getAllPlanets(state));//
-  const listStarships = useSelector((state) => getAllStarships(state));//
+  const dispatch = useDispatch();
+  const listPeople = useSelector((state) => getAllPeople(state));
+  const listPlanets = useSelector((state) => getAllPlanets(state));
+  const listStarships = useSelector((state) => getAllStarships(state));
 
   useEffect(() => {
     (async () => {
@@ -58,8 +51,7 @@ function App() {
         peopleData = await getData('people');
         localStorage.setItem('list-people-key', JSON.stringify(peopleData));
       }
-      // setPeople(peopleData);     //
-      dispatch(setPeople(peopleData)); //
+      dispatch(setPeople(peopleData));
     })();
   }, []);
 
@@ -72,8 +64,7 @@ function App() {
         planetsData = await getData('planets');
         localStorage.setItem('list-planets-key', JSON.stringify(planetsData));
       }
-      // setPlanets(planetsData);
-      dispatch(setPlanets(planetsData)); //
+      dispatch(setPlanets(planetsData));
     })();
   }, []);
 
@@ -86,8 +77,7 @@ function App() {
         starshipsData = await getData('starships');
         localStorage.setItem('list-starships-key', JSON.stringify(starshipsData));
       }
-      // setStarships(starshipsData);     //
-      dispatch(setStarships(starshipsData)); //
+      dispatch(setStarships(starshipsData));
     })();
   }, []);
 
@@ -100,8 +90,7 @@ function App() {
         listPeopleCopy.splice(deleteNumber, 1);
         data = [...listPeopleCopy];
         localStorage.setItem('list-people-key', JSON.stringify(data));
-        // setPeople(data);     //
-        dispatch(setPeople(data)); //
+        dispatch(setPeople(data));
       } else {
         alert('Can not remove last element');
       }
@@ -111,8 +100,7 @@ function App() {
         listPlanetsCopy.splice(deleteNumber, 1);
         data = [...listPlanetsCopy];
         localStorage.setItem('list-planets-key', JSON.stringify(data));
-        // setPlanets(data);      //
-        dispatch(setPlanets(data)); //
+        dispatch(setPlanets(data));
       } else {
         alert('Can not remove last element');
       }
@@ -122,8 +110,7 @@ function App() {
         listStarshipsCopy.splice(deleteNumber, 1);
         data = [...listStarshipsCopy];
         localStorage.setItem('list-starships-key', JSON.stringify(data));
-        // setStarships(data);      //
-        dispatch(setStarships(data)); //
+        dispatch(setStarships(data));
       } else {
         alert('Can not remove last element');
       }
@@ -143,18 +130,15 @@ function App() {
     if (path.toLowerCase() === 'people') {
       data = [...listPeople];
       localStorage.setItem('list-people-key', JSON.stringify(data));
-      // setPeople(data);     //
-      dispatch(setPeople(data)); //
+      dispatch(setPeople(data));
     } else if (path.toLowerCase() === 'planets') {
       data = [...listPlanets];
       localStorage.setItem('list-planets-key', JSON.stringify(data));
-      // setPlanets(data);      //
-      dispatch(setPlanets(data)); //
+      dispatch(setPlanets(data));
     } else if (path.toLowerCase() === 'starships') {
       data = [...listStarships];
       localStorage.setItem('list-starships-key', JSON.stringify(data));
-      // setStarships(data);      //
-      dispatch(setStarships(data)); //
+      dispatch(setStarships(data));
     }
   };
 
@@ -192,15 +176,8 @@ function App() {
                 <Form
                   data={data}
                   path={path.toLowerCase()}
-                  // onAddData={handleAddItem}
                   initialData={getInitialData()}
-                  columns={getColumnNames(path, listPlanets, listStarships, listPeople)}
-                  // listPeople={listPeople}
-                  // listPlanets={listPlanets}
-                  // listStarships={listStarships}
-                  // setPeople={setPeople}
-                  // setPlanets={setPlanets}
-                  // setStarships={setStarships}
+                  columns={getColumnNames(path, listPeople, listPlanets, listStarships)}
                 />
               ) : <div className="error">Firstly select the page you want</div>}
           </Route>

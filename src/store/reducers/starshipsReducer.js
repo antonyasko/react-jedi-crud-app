@@ -1,4 +1,4 @@
-import { SET_STARSHIPS } from '../actions/starshipsAction';
+import { SET_STARSHIPS } from '../actions/actions';
 
 const initialState = {
   allStarships: [],

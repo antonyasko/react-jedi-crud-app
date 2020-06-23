@@ -1,38 +1,28 @@
 /* eslint-disable no-param-reassign */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';//
+import { useSelector, useDispatch } from 'react-redux';
 
 import Input from '../Input/Input';
 import SaveButton from '../SaveButton/SaveButton';
-import inputValidation from '../../services/inputValidation';
 
 import handleAddItem from '../../services/handleAddItem';
+import inputValidation from '../../services/inputValidation';
 
-import { setPeople, setPlanets, setStarships } from '../../store/actions/actions';//
-import { getAllPeople, getAllPlanets, getAllStarships } from '../../store/selectors/selectors';//
+import { setPeople, setPlanets, setStarships } from '../../store/actions/actions';
+import { getAllPeople, getAllPlanets, getAllStarships } from '../../store/selectors/selectors';
 
 import './Form.scss';
 
 const Form = ({
-  data,
-  path,
-  // onAddData,
-  initialData,
-  columns,
-  // listPeople,      //
-  // listPlanets,     //
-  // listStarships,     //
-  // setPeople,     //
-  // setPlanets,      //
-  // setStarships,      //
+  data, path, initialData, columns,
 }) => {
   const [personData, setData] = useState(initialData);
 
-  const dispatch = useDispatch();//
-  const listPeople = useSelector((state) => getAllPeople(state));//
-  const listPlanets = useSelector((state) => getAllPlanets(state));//
-  const listStarships = useSelector((state) => getAllStarships(state));//
+  const dispatch = useDispatch();
+  const listPeople = useSelector((state) => getAllPeople(state));
+  const listPlanets = useSelector((state) => getAllPlanets(state));
+  const listStarships = useSelector((state) => getAllStarships(state));
 
   const handleClick = (event) => {
     const inputs = Array.from(document.getElementsByClassName('form-control'));
@@ -74,14 +64,14 @@ const Form = ({
             key={columnName}
             name={columnName}
             label={columnName}
-            value={personData[columnName]}
             onChange={handleChange}
+            value={personData[columnName]}
           />
         ))}
         <SaveButton
-          path={path.toLowerCase()}
-          onClick={handleClick}
           label="Save"
+          onClick={handleClick}
+          path={path.toLowerCase()}
           classes="alert alert-danger"
         />
       </form>
@@ -92,15 +82,8 @@ const Form = ({
 Form.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   path: PropTypes.string.isRequired,
-  // onAddData: PropTypes.func.isRequired,
   initialData: PropTypes.objectOf(PropTypes.string).isRequired,
   columns: PropTypes.arrayOf(PropTypes.string).isRequired,
-  // listPeople: PropTypes.arrayOf(PropTypes.object).isRequired,      //
-  // listPlanets: PropTypes.arrayOf(PropTypes.object).isRequired,     //
-  // listStarships: PropTypes.arrayOf(PropTypes.object).isRequired,     //
-  // setPeople: PropTypes.func.isRequired,      //
-  // setPlanets: PropTypes.func.isRequired,     //
-  // setStarships: PropTypes.func.isRequired,     //
 };
 
 export default Form;

@@ -1,4 +1,4 @@
-import { SET_PLANETS } from '../actions/planetsAction';
+import { SET_PLANETS } from '../actions/actions';
 
 const initialState = {
   allPlanets: [],

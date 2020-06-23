@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 import './SaveButton.scss';
 
 const SaveButton = ({
-  path, onClick, label, classes,
+  label, onClick, path, classes,
 }) => (
   <NavLink to={`/${path.toLowerCase()}`}>
     <button
+      type="button"
       onClick={onClick}
       className={`save-button ${classes}`}
-      type="button"
     >
       {label}
     </button>
@@ -19,10 +19,10 @@ const SaveButton = ({
 );
 
 SaveButton.propTypes = {
+  label: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
   path: PropTypes.string.isRequired,
   classes: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-  label: PropTypes.string.isRequired,
 };
 
 export default SaveButton;
