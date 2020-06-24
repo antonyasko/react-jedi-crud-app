@@ -1,10 +1,9 @@
-const handleAddItem = (path, data, listData, people, planets, ships,
+const handleAddItem = (path, listData, people, planets, ships,
   setPeople, setPlanets, setShips, dispatch) => {
   switch (path) {
     case 'people': {
-      data.splice(0, data.length, ...people, listData);
-      localStorage.setItem('list-people-key', JSON.stringify(data));
-      dispatch(setPeople(data));
+      localStorage.setItem('list-people-key', JSON.stringify([...people, listData]));
+      dispatch(setPeople([...people, listData]));
       break;
     }
     case 'planets': {

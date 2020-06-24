@@ -1,8 +1,8 @@
-/* eslint-disable no-alert */
 /* eslint-disable no-param-reassign */
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import Form from './components/Form/Form';
 import Table from './components/Table/Table';
@@ -10,18 +10,21 @@ import Title from './components/Title/Title';
 import Navbar from './components/Navbar/Navbar';
 import Creater from './components/Creater/Creater';
 
-import getData from './services/getData';
 import addStartData from './services/addStartData';
 import getColumnNames from './services/getColumnNames';
 
-import './App.scss';
-import 'bootstrap/dist/css/bootstrap.css';
+import watchLoadPeople from './store/sagas/peopleSaga';
+import watchLoadPlanets from './store/sagas/planetsSaga';
+import watchLoadStarships from './store/sagas/starshipsSaga';
 
-import { setPeople } from './store/actions/peopleActions';
-import { setPlanets } from './store/actions/planetsActions';
-import { setStarships } from './store/actions/starshipsActions';
+import { setPeople, loadPeople } from './store/actions/peopleActions';
+import { setPlanets, loadPlanets } from './store/actions/planetsActions';
+import { setStarships, loadStarships } from './store/actions/starshipsActions';
 
 import { getAllPeople, getAllPlanets, getAllStarships } from './store/selectors/selectors';
+
+import './App.scss';
+import 'bootstrap/dist/css/bootstrap.css';
 
 import headerList from './data/headerList.json';
 
@@ -39,48 +42,31 @@ if (window.location.href === `${window.location.origin}/`) {
   window.location.replace(`${origin}/people`);
 }
 
-function App() {
+const App = ({ sagaMiddleware }) => {
   const dispatch = useDispatch();
+  sagaMiddleware.run(watchLoadPeople);
+  sagaMiddleware.run(watchLoadPlanets);
+  sagaMiddleware.run(watchLoadStarships);
+
   const listPeople = useSelector((state) => getAllPeople(state));
   const listPlanets = useSelector((state) => getAllPlanets(state));
   const listStarships = useSelector((state) => getAllStarships(state));
 
   useEffect(() => {
-    (async () => {
-      let peopleData;
-      if (localStorage.getItem('list-people-key')) {
-        peopleData = JSON.parse(localStorage.getItem('list-people-key'));
-      } else {
-        peopleData = await getData('people');
-        localStorage.setItem('list-people-key', JSON.stringify(peopleData));
-      }
-      dispatch(setPeople(peopleData));
+    (() => {
+      dispatch(loadPeople());
     })();
   }, []);
 
   useEffect(() => {
-    (async () => {
-      let planetsData;
-      if (localStorage.getItem('list-planets-key')) {
-        planetsData = JSON.parse(localStorage.getItem('list-planets-key'));
-      } else {
-        planetsData = await getData('planets');
-        localStorage.setItem('list-planets-key', JSON.stringify(planetsData));
-      }
-      dispatch(setPlanets(planetsData));
+    (() => {
+      dispatch(loadPlanets());
     })();
   }, []);
 
   useEffect(() => {
-    (async () => {
-      let starshipsData;
-      if (localStorage.getItem('list-starships-key')) {
-        starshipsData = JSON.parse(localStorage.getItem('list-starships-key'));
-      } else {
-        starshipsData = await getData('starships');
-        localStorage.setItem('list-starships-key', JSON.stringify(starshipsData));
-      }
-      dispatch(setStarships(starshipsData));
+    (() => {
+      dispatch(loadStarships());
     })();
   }, []);
 
@@ -156,6 +142,9 @@ function App() {
       </Router>
     </div>
   );
-}
+};
 
+App.propTypes = {
+  sagaMiddleware: PropTypes.func.isRequired,
+};
 export default App;

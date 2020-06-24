@@ -30,7 +30,7 @@ const Form = ({
     const inputs = Array.from(document.getElementsByClassName('form-control'));
 
     if (inputs.every((input) => inputValidation(input, data))) {
-      handleAddItem(path, data, personData, listPeople, listPlanets, listStarships,
+      handleAddItem(path, personData, listPeople, listPlanets, listStarships,
         setPeople, setPlanets, setStarships, dispatch);
     } else {
       event.preventDefault();

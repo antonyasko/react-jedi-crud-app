@@ -19,7 +19,7 @@ function inputValidation(input, data) {
     input.placeholder = `${input.name} must be number more than 0`;
     return false;
   } if (input.name === 'population' || input.name === 'passengers') {
-    if (Number(input.value) >= 0) {
+    if (Number(input.value) >= 0 && input.value !== '') {
       input.classList.add('input-valid');
       return true;
     }
