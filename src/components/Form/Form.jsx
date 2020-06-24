@@ -56,14 +56,18 @@ const Form = ({
     <div className="wrapper-form">
       <form className="input-form">
         {columns.map((columnName) => (
-          <Input
-            id={columnName}
-            key={columnName}
-            name={columnName}
-            label={columnName}
-            onChange={handleChange}
-            value={personData[columnName]}
-          />
+          (columnName !== 'beloved')
+            ? (
+              <Input
+                id={columnName}
+                key={columnName}
+                name={columnName}
+                label={columnName}
+                onChange={handleChange}
+                value={personData[columnName]}
+              />
+            )
+            : ('')
         ))}
         <SaveButton
           label="Save"

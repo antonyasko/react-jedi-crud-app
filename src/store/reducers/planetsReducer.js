@@ -1,4 +1,4 @@
-import { SET_PLANETS, DELETE_PLANETS } from '../actions/planetsActions';
+import { SET_PLANETS, DELETE_PLANETS, CHANGE_BELOVED_PLANETS } from '../actions/planetsActions';
 
 const initialState = {
   allPlanets: localStorage.getItem('list-planets-key')
@@ -23,6 +23,13 @@ function planetsReducer(state = initialState, action) {
       localStorage.setItem('list-planets-key', JSON.stringify(data.allPlanets));
       return data;
     }
+    case CHANGE_BELOVED_PLANETS:
+      return {
+        ...state,
+        allPlanets: state.allPlanets.map((planet) => ((planet.id === action.id)
+          ? { ...planet, beloved: !planet.beloved }
+          : planet)),
+      };
     default:
       return state;
   }

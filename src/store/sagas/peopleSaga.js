@@ -24,8 +24,9 @@ function* workerLoadPeople() {
     data = peopleData.results.map(({
       name, height, mass, gender, birth_year,
       id = `${name.split(' ').shift()}-${Math.floor(Math.random() * (maxRandom - minRandom + 1)) + minRandom}`,
+      beloved = false,
     }) => ({
-      name, height, mass, gender, birth_year, id,
+      name, height, mass, gender, birth_year, id, beloved,
     }));
     localStorage.setItem('list-people-key', JSON.stringify(data));
   }

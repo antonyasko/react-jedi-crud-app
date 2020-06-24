@@ -1,4 +1,4 @@
-import { SET_STARSHIPS, DELETE_STARSHIPS } from '../actions/starshipsActions';
+import { SET_STARSHIPS, DELETE_STARSHIPS, CHANGE_BELOVED_STARSHIPS } from '../actions/starshipsActions';
 
 const initialState = {
   allStarships: localStorage.getItem('list-starships-key')
@@ -23,6 +23,13 @@ function starshipsReducer(state = initialState, action) {
       localStorage.setItem('list-starships-key', JSON.stringify(data.allStarships));
       return data;
     }
+    case CHANGE_BELOVED_STARSHIPS:
+      return {
+        ...state,
+        allStarships: state.allStarships.map((starship) => ((starship.id === action.id)
+          ? { ...starship, beloved: !starship.beloved }
+          : starship)),
+      };
     default:
       return state;
   }

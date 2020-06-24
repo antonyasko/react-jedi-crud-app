@@ -24,8 +24,9 @@ function* workerLoadStarships() {
     data = starshipsData.results.map(({
       name, length, crew, passengers, starship_class,
       id = `${name.split(' ').shift()}-${Math.floor(Math.random() * (maxRandom - minRandom + 1)) + minRandom}`,
+      beloved = false,
     }) => ({
-      name, length, crew, passengers, starship_class, id,
+      name, length, crew, passengers, starship_class, id, beloved,
     }));
     localStorage.setItem('list-starships-key', JSON.stringify(data));
   }

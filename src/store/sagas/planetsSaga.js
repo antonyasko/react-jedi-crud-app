@@ -23,8 +23,9 @@ function* workerLoadPlanets() {
     data = planetsData.results.map(({
       name, diameter, climate, terrain, population,
       id = `${name.split(' ').shift()}-${Math.floor(Math.random() * (maxRandom - minRandom + 1)) + minRandom}`,
+      beloved = false,
     }) => ({
-      name, diameter, climate, terrain, population, id,
+      name, diameter, climate, terrain, population, id, beloved,
     }));
     localStorage.setItem('list-planets-key', JSON.stringify(data));
   }

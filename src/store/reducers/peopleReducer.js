@@ -1,4 +1,4 @@
-import { SET_PEOPLE, DELETE_PEOPLE } from '../actions/peopleActions';
+import { SET_PEOPLE, DELETE_PEOPLE, CHANGE_BELOVED_PEOPLE } from '../actions/peopleActions';
 
 const initialState = {
   allPeople: localStorage.getItem('list-people-key')
@@ -23,6 +23,13 @@ function peopleReducer(state = initialState, action) {
       localStorage.setItem('list-people-key', JSON.stringify(data.allPeople));
       return data;
     }
+    case CHANGE_BELOVED_PEOPLE:
+      return {
+        ...state,
+        allPeople: state.allPeople.map((person) => ((person.id === action.id)
+          ? { ...person, beloved: !person.beloved }
+          : person)),
+      };
     default:
       return state;
   }
