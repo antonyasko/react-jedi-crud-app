@@ -24,15 +24,14 @@ import { setStarships, loadStarships } from './store/actions/starshipsActions';
 import { getAllPeople, getAllPlanets, getAllStarships } from './store/selectors/selectors';
 
 import './App.scss';
-import 'bootstrap/dist/css/bootstrap.css';
 
 import headerList from './data/headerList.json';
 
 let path = headerList[0].toLowerCase();
 
 if (headerList.some((item) => item.toLowerCase()
-=== window.location.pathname.slice(1).toLowerCase())
-&& window.location.pathname.slice(1) !== '') {
+  === window.location.pathname.slice(1).toLowerCase())
+  && window.location.pathname.slice(1) !== '') {
   path = window.location.pathname.slice(1).toLowerCase();
 } else if (window.location.pathname.slice(1) === '') {
   path = '';
@@ -147,4 +146,5 @@ const App = ({ sagaMiddleware }) => {
 App.propTypes = {
   sagaMiddleware: PropTypes.func.isRequired,
 };
+
 export default App;
