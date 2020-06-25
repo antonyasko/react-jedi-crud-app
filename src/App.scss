@@ -1,3 +1,36 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.table-wrapper {
+  width: 960px;
+  margin: 0 auto;
+}
+
+.wrapper {
+  width: 100%;
+}
+
+.main {
+  font-size: 40px;
+}
+
+a {
+  text-decoration: none!important;
+  color: #ffffff!important;
+}
+
+a:hover {
+  text-decoration: none!important;
+  color: #ffffff!important;
+}
+
+.error {
+  color: #f85d5d;
+  font-size: 40px;
+}
+
 .App {
   text-align: center;
 }

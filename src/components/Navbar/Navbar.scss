@@ -1,0 +1,44 @@
+$darkGray: #454d55;
+$textColor: #ffffff;
+$hover: #ffa500;
+
+.header {
+  background-color: $darkGray;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  color: $textColor;
+  .logo {
+    margin: 0 25px;
+  }
+  .logo:hover {
+    color: $hover;
+  }
+  .navbar {
+    height: min-content;
+    width: min-content;
+    ul {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      li {
+        list-style-type: none;
+        margin: 0;
+        .active {
+          color: $hover!important;
+        }
+        button {
+          cursor: pointer;
+          outline: none;
+          border: none;
+          padding: 5px;
+          background: none;
+          color: $textColor;
+        }
+        button:hover {
+          color: $hover;
+        }
+      }
+    }
+  }
+}
