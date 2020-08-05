@@ -146,5 +146,3 @@ const App = ({ sagaMiddleware }) => {
 App.propTypes = {
   sagaMiddleware: PropTypes.func.isRequired,
 };
-
-export default App;
